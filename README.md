@@ -1,7 +1,7 @@
 Atlas
 =====
 
-The name is from this [atlas](http://en.wikipedia.org/wiki/Atlas_(anatomy)) and in a clear reference to [Backbone](https://github.com/documentcloud/backbone)
+The name is from this [atlas](http://en.wikipedia.org/wiki/Atlas_(anatomy%29) and in a clear reference to [Backbone](https://github.com/documentcloud/backbone)
 
 ![Atlas Backbone](http://upload.wikimedia.org/wikipedia/commons/5/54/Gray_111_-_Vertebral_column-coloured.png)
 
