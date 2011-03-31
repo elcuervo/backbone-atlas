@@ -34,11 +34,11 @@ This can be translated to [Rails](https://github.com/rails/rails) like this:
 
     class Comment < ActiveRecord::Base
       has_many :comments
-      has_one :author, classname: "User"
+      has_one :author, class_name: "User"
     end
 
     class Post < ActiveRecord::Base
-      has_one :created_by, classname: "User"
+      has_one :created_by, class_name: "User"
       has_many :comments
     end
 
