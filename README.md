@@ -30,7 +30,7 @@ Its main purpose is to give Backbone the ability to load nested models from json
 
     class @User extends Backbone.Atlas.Model
 
-This can be translated to [Rails](https://github.com/rails/rails) like this:
+This can be translated to [Rails](https://github.com/rails/rails) ActiveRecord like this:
 
     class Comment < ActiveRecord::Base
       has_many :comments
