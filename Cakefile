@@ -22,6 +22,4 @@ task "test", "Run Test", (options) ->
   invoke "build"
   invoke "build:test"
 
-  exec "open test/test.html", (error, stdout, stderr) ->
-    console.log stdout
-    console.log stderr
+  console.log "open test/test.html to load the QUnit tests"
