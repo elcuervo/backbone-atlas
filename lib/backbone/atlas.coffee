@@ -41,7 +41,7 @@ class Backbone.Atlas
       [attrs, options] = [args[0], args[1..-1]]
       for key, nested_attributes of attrs
         if key of this.attributes
-          if this.get(key).update_attributes?
+          if this.get(key)? and this.get(key).update_attributes?
             # Identity map behaviour
             if this.get(key).constructor is nested_attributes.constructor
               this.attributes[key] = nested_attributes

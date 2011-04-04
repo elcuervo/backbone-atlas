@@ -19,7 +19,6 @@
       });
     };
     Comment.prototype.validate = function(attrs) {
-      console.info(this.attributes);
       if (!attrs.body) {
         throw new Error("Comment: body required");
       }
