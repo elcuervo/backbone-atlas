@@ -61,3 +61,33 @@ $(document).ready ->
     ok post.comments.constructor is CommentList
     ok post.comments.first().constructor is Comment
     ok post.comments.last().author.constructor is User
+
+
+
+  module "Already created models"
+  test "should inherit models if instanced backbone models passed", ->
+    new_user = new User {
+      name: "Moe Hawk"
+    }
+
+    inherit_post = new Post {
+      comments: [
+        { author: new_user, body: "test1" }
+        { author: new_user, body: "test1" }
+      ]
+    }
+
+    equals inherit_post.comments.first().author.cid, new_user.cid
+
+  module "Error handling"
+  test "Empty relation", ->
+    wrong_post = new Post
+    wrong_post.set {
+      title: "wrong"
+      comments: []
+    }
+    equals  wrong_post.title , "wrong"
+    ok      wrong_post.comments.constructor is CommentList
+    equals  wrong_post.comments.length, 0
+
+

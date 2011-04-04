@@ -57,12 +57,43 @@
       return equals(post.comments.first().comments.first().author.id, 90);
     });
     module("Type Checking");
-    return test("should be correclty instanced the models", function() {
+    test("should be correclty instanced the models", function() {
       ok(post.constructor === Post);
       ok(post.created_by.constructor === User);
       ok(post.comments.constructor === CommentList);
       ok(post.comments.first().constructor === Comment);
       return ok(post.comments.last().author.constructor === User);
+    });
+    module("Already created models");
+    test("should inherit models if instanced backbone models passed", function() {
+      var inherit_post, new_user;
+      new_user = new User({
+        name: "Moe Hawk"
+      });
+      inherit_post = new Post({
+        comments: [
+          {
+            author: new_user,
+            body: "test1"
+          }, {
+            author: new_user,
+            body: "test1"
+          }
+        ]
+      });
+      return equals(inherit_post.comments.first().author.cid, new_user.cid);
+    });
+    module("Error handling");
+    return test("Empty relation", function() {
+      var wrong_post;
+      wrong_post = new Post;
+      wrong_post.set({
+        title: "wrong",
+        comments: []
+      });
+      equals(wrong_post.title, "wrong");
+      ok(wrong_post.comments.constructor === CommentList);
+      return equals(wrong_post.comments.length, 0);
     });
   });
 }).call(this);

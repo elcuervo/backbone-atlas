@@ -42,7 +42,12 @@ class Backbone.Atlas
       for key, nested_attributes of attrs
         if key of this.attributes
           if this.get(key).update_attributes?
-            this.get(key).update_attributes nested_attributes
+            # Identity map behaviour
+            if this.get(key).constructor is nested_attributes.constructor
+              this.attributes[key] = nested_attributes
+            else
+              this.get(key).update_attributes nested_attributes
+
             delete attrs[key]
 
       super attrs, options
