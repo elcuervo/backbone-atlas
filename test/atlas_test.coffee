@@ -37,7 +37,7 @@ $(document).ready ->
   post.set json
 
   module "Recursion Testing"
-  test "should not generate too much recursion", ->
+  test "should not generate too much recursion when same model", ->
     recursion_post = new Post
     recursion_post.set {
       title: "Re-Course"

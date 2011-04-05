@@ -48,10 +48,7 @@ class Backbone.Atlas
       [attrs, options] = [args[0], args[1..-1]]
       for key, attributes of attrs
         if this.get(key)?
-          if this.get(key).update_attributes?
-            this.get(key).update_attributes attributes
-          if this.get(key).cid == attributes.cid
-            this.attributes[key] = attributes
+          this.get(key).update_attributes(attributes) if this.get(key).update_attributes?
         else
           this.attributes[key] = attributes
 

@@ -39,7 +39,7 @@
     };
     post.set(json);
     module("Recursion Testing");
-    test("should not generate too much recursion", function() {
+    test("should not generate too much recursion when same model", function() {
       var recursion_post;
       recursion_post = new Post;
       recursion_post.set({
