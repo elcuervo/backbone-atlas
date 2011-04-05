@@ -55,7 +55,19 @@
           }
         ]
       });
-      return ok(recursion_post.comments.first().commentable.constructor === Comment);
+      console.warn(recursion_post);
+      return equals(recursion_post.comments.first().commentable.constructor, Comment);
+    });
+    module("Updating attributes");
+    test("should only update, not overwrite", function() {
+      var test_post;
+      test_post = new Post({
+        title: "test1"
+      });
+      test_post.set({
+        title: "test2"
+      });
+      return equals(test_post.title, "test2");
     });
     module("Testing First level relations");
     test("should match setters", function() {

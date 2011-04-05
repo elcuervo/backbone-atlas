@@ -47,13 +47,15 @@ class Backbone.Atlas
     set: (args...) ->
       [attrs, options] = [args[0], args[1..-1]]
       for key, attributes of attrs
-        if this.get(key)?
-          this.get(key).update_attributes(attributes) if this.get(key).update_attributes?
-        else
-          this.attributes[key] = attributes
-
         if key of this.relations.has
-          this.attributes[key] = new this.relations.has[key](attributes)
+          switch true
+            when attributes instanceof Backbone.Atlas.Model
+              this.attributes[key] = attributes
+            when this.get(key)? and this.get(key).update_attributes?
+              this.get(key).update_attributes(attributes)
+            else
+              this.attributes[key] = new this.relations.has[key](attributes)
+
           delete attrs[key]
 
       super attrs, options

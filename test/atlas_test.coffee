@@ -53,7 +53,19 @@ $(document).ready ->
       ]
     }
 
-    ok recursion_post.comments.first().commentable.constructor is Comment
+    console.warn recursion_post
+    equals recursion_post.comments.first().commentable.constructor, Comment
+
+  module "Updating attributes"
+  test "should only update, not overwrite", ->
+    test_post = new Post {
+      title: "test1"
+    }
+    test_post.set {
+      title: "test2"
+    }
+    equals test_post.title, "test2"
+
 
   module "Testing First level relations"
   test "should match setters", ->
