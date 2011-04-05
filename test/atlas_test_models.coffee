@@ -13,9 +13,6 @@ class @CommentList extends Backbone.Atlas.Collection
 
 class @Post extends Backbone.Atlas.Model
   initialize: (attributes) ->
-    @has      attributes, {
-      comments: CommentList
-      created_by: User
-    }
+    @has      attributes, comments: CommentList, created_by: User
 
 class @User extends Backbone.Atlas.Model

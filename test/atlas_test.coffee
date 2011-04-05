@@ -35,12 +35,26 @@ $(document).ready ->
   }
 
   post.set json
-  console.log post
 
   module "Recursion Testing"
   test "should not generate too much recursion", ->
+    recursion_post = new Post
+    recursion_post.set {
+      title: "Re-Course"
+      comments: [
+        {
+          id: 11,
+          body: "test"
+          commentable: {
+            id: 10,
+            body: "Dude"
+          }
+        }
+      ]
+    }
 
-###
+    ok recursion_post.comments.first().commentable.constructor is Comment
+
   module "Testing First level relations"
   test "should match setters", ->
     equals post.title, "Test Title"
@@ -92,4 +106,3 @@ $(document).ready ->
     equals  wrong_post.title , "wrong"
     ok      wrong_post.comments.constructor is CommentList
     equals  wrong_post.comments.length, 0
-###

@@ -38,61 +38,81 @@
       ]
     };
     post.set(json);
-    console.log(post);
     module("Recursion Testing");
-    return test("should not generate too much recursion", function() {});
-  });
-  /*
-    module "Testing First level relations"
-    test "should match setters", ->
-      equals post.title, "Test Title"
-      equals post.created_by, post.get("created_by")
-      equals post.comments.length, 2
-
-    module "Testing chained relations"
-    test "should chain correctly", ->
-      equals  post.comments.first().id, 4
-      ok      post.comments.first().author.constructor is User
-
-    module "Multiple nesting"
-    test "should be able to access comments comments", ->
-      equals post.created_by.id, 1
-      equals post.comments.last().author.name, "Persefone"
-      equals post.comments.first().author.name, "Hermes"
-      equals post.comments.first().comments.first().author.id, 90
-
-    module "Type Checking"
-    test "should be correclty instanced the models", ->
-      ok post.constructor is Post
-      ok post.created_by.constructor is User
-      ok post.comments.constructor is CommentList
-      ok post.comments.first().constructor is Comment
-      ok post.comments.last().author.constructor is User
-
-    module "Already created models"
-    test "should inherit models if instanced backbone models passed", ->
-      new_user = new User {
-        name: "Moe Hawk"
-      }
-
-      inherit_post = new Post {
+    test("should not generate too much recursion", function() {
+      var recursion_post;
+      recursion_post = new Post;
+      recursion_post.set({
+        title: "Re-Course",
         comments: [
-          { author: new_user, body: "test1" }
-          { author: new_user, body: "test1" }
+          {
+            id: 11,
+            body: "test",
+            commentable: {
+              id: 10,
+              body: "Dude"
+            }
+          }
         ]
-      }
-
-      equals inherit_post.comments.first().author.cid, new_user.cid
-
-    module "Error handling"
-    test "Empty relation", ->
-      wrong_post = new Post
-      wrong_post.set {
-        title: "wrong"
+      });
+      return ok(recursion_post.comments.first().commentable.constructor === Comment);
+    });
+    module("Testing First level relations");
+    test("should match setters", function() {
+      equals(post.title, "Test Title");
+      equals(post.created_by, post.get("created_by"));
+      return equals(post.comments.length, 2);
+    });
+    module("Testing chained relations");
+    test("should chain correctly", function() {
+      equals(post.comments.first().id, 4);
+      return ok(post.comments.first().author.constructor === User);
+    });
+    module("Multiple nesting");
+    test("should be able to access comments comments", function() {
+      equals(post.created_by.id, 1);
+      equals(post.comments.last().author.name, "Persefone");
+      equals(post.comments.first().author.name, "Hermes");
+      return equals(post.comments.first().comments.first().author.id, 90);
+    });
+    module("Type Checking");
+    test("should be correclty instanced the models", function() {
+      ok(post.constructor === Post);
+      ok(post.created_by.constructor === User);
+      ok(post.comments.constructor === CommentList);
+      ok(post.comments.first().constructor === Comment);
+      return ok(post.comments.last().author.constructor === User);
+    });
+    module("Already created models");
+    test("should inherit models if instanced backbone models passed", function() {
+      var inherit_post, new_user;
+      new_user = new User({
+        name: "Moe Hawk"
+      });
+      inherit_post = new Post({
+        comments: [
+          {
+            author: new_user,
+            body: "test1"
+          }, {
+            author: new_user,
+            body: "test1"
+          }
+        ]
+      });
+      return equals(inherit_post.comments.first().author.cid, new_user.cid);
+    });
+    module("Error handling");
+    return test("Empty relation", function() {
+      var wrong_post;
+      wrong_post = new Post;
+      wrong_post.set({
+        title: "wrong",
         comments: []
-      }
-      equals  wrong_post.title , "wrong"
-      ok      wrong_post.comments.constructor is CommentList
-      equals  wrong_post.comments.length, 0
-  */
+      });
+      equals(wrong_post.title, "wrong");
+      ok(wrong_post.comments.constructor === CommentList);
+      return equals(wrong_post.comments.length, 0);
+    });
+  });
 }).call(this);
