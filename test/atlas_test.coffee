@@ -35,7 +35,12 @@ $(document).ready ->
   }
 
   post.set json
+  console.log post
 
+  module "Recursion Testing"
+  test "should not generate too much recursion", ->
+
+###
   module "Testing First level relations"
   test "should match setters", ->
     equals post.title, "Test Title"
@@ -62,8 +67,6 @@ $(document).ready ->
     ok post.comments.first().constructor is Comment
     ok post.comments.last().author.constructor is User
 
-
-
   module "Already created models"
   test "should inherit models if instanced backbone models passed", ->
     new_user = new User {
@@ -89,5 +92,4 @@ $(document).ready ->
     equals  wrong_post.title , "wrong"
     ok      wrong_post.comments.constructor is CommentList
     equals  wrong_post.comments.length, 0
-
-
+###

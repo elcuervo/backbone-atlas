@@ -22,16 +22,19 @@ class Backbone.Atlas
       this.refresh nested_attributes
 
   class @Model extends Backbone.Model
-
     propagate_attributes: -> _.extend this, this.attributes
 
-    has: (attributes, relations) ->
-      extended_relation = {}
-      for relation_key, relation_class of relations
-        extended_relation[relation_key] = new relation_class()
+    relations: {}
 
-      _.extend(this.attributes, extended_relation)
-      this.propagate_attributes()
+    has: (attributes, related_models) ->
+      this.relations.has = related_models
+      extended_relation = {}
+      for relation_key, relation_class of related_models
+        if !this.get(relation_key)?
+          extended_relation[relation_key] = null
+
+      _.extend this.attributes, extended_relation
+
       this.set attributes if attributes?
 
     update_attributes: (nested_attributes) ->
@@ -39,16 +42,15 @@ class Backbone.Atlas
 
     set: (args...) ->
       [attrs, options] = [args[0], args[1..-1]]
-      for key, nested_attributes of attrs
-        if key of this.attributes
-          if this.get(key)? and this.get(key).update_attributes?
-            # Identity map behaviour
-            if this.get(key).constructor is nested_attributes.constructor
-              this.attributes[key] = nested_attributes
-            else
-              this.get(key).update_attributes nested_attributes
-
-            delete attrs[key]
+      for key, attributes of attrs
+        if this.get(key)?
+          if this.get(key).update_attributes?
+            this.get(key).update_attributes attributes
+          if this.get(key).cid == attributes.cid
+            this.attributes[key] = attributes
+        if key of this.relations.has
+          this.attributes[key] = new this.relations.has[key](attributes)
+          delete attrs[key]
 
       super attrs, options
       this.propagate_attributes()

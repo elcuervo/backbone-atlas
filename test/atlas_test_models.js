@@ -14,6 +14,7 @@
     __extends(Comment, Backbone.Atlas.Model);
     Comment.prototype.initialize = function(attributes) {
       return this.has(attributes, {
+        commentable: Comment,
         comments: CommentList,
         author: User
       });
