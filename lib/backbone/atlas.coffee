@@ -18,8 +18,6 @@
 
 class Backbone.Atlas
   class @Collection extends Backbone.Collection
-    update_attributes: (nested_attributes) ->
-      this.refresh nested_attributes
 
   class @Model extends Backbone.Model
     relations:
@@ -41,22 +39,12 @@ class Backbone.Atlas
       this.relations.has = related_models
       this.generate_relation attributes, related_models
 
-    update_attributes: (nested_attributes) ->
-      this.set nested_attributes
-
-    set: (args...) ->
-      [attrs, options] = [args[0], args[1..-1]]
-      for key, attributes of attrs
-        if key of this.relations.has
-          switch true
-            when attributes instanceof Backbone.Atlas.Model
-              this.attributes[key] = attributes
-            when this.get(key)? and this.get(key).update_attributes?
-              this.get(key).update_attributes(attributes)
-            else
-              this.attributes[key] = new this.relations.has[key](attributes)
-
-          delete attrs[key]
+    set: (attrs, options) ->
+      if attrs?
+        for relation_key, builder of this.relations.has
+          if attrs[relation_key]
+            this.attributes[relation_key] = new builder(attrs[relation_key])
+            delete attrs[relation_key]
 
       super attrs, options
       this.propagate_attributes()

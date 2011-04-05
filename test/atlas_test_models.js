@@ -19,11 +19,6 @@
         author: User
       });
     };
-    Comment.prototype.validate = function(attrs) {
-      if (!attrs.body) {
-        throw new Error("Comment: body required");
-      }
-    };
     return Comment;
   })();
   this.CommentList = (function() {

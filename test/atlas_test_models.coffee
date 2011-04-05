@@ -5,9 +5,6 @@ class @Comment extends Backbone.Atlas.Model
       comments: CommentList
       author: User
 
-  validate: (attrs) ->
-    throw new Error("Comment: body required") if !attrs.body
-
 class @CommentList extends Backbone.Atlas.Collection
   model: Comment
 
