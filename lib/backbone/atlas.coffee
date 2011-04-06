@@ -46,5 +46,5 @@ class Backbone.Atlas
             this.attributes[relation_key] = new builder(attrs[relation_key])
             delete attrs[relation_key]
 
-      super attrs, options
+      super attrs, options if !_.isEmpty(attrs)
       this.propagate_attributes()
