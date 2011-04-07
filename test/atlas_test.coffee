@@ -117,14 +117,3 @@ $(document).ready ->
     equals  wrong_post.title , "wrong"
     ok      wrong_post.comments.constructor is CommentList
     equals  wrong_post.comments.length, 0
-
-  module ""
-  test "", ->
-    comments = new CommentList
-    comments.refresh [
-      {body: "asd"}, {body: "123"}
-    ]
-
-    comments2 = new CommentList comments.toJSON()
-    console.warn comments2
-

@@ -43,7 +43,10 @@ class Backbone.Atlas
       if attrs?
         for relation_key, builder of this.relations.has
           if attrs[relation_key]
-            this.attributes[relation_key] = new builder(attrs[relation_key])
+            if attrs[relation_key].constructor is builder
+              this.attributes[relation_key] = attrs[relation_key]
+            else
+              this.attributes[relation_key] = new builder(attrs[relation_key])
             delete attrs[relation_key]
 
       super attrs, options if !_.isEmpty(attrs)

@@ -114,7 +114,7 @@
       return equals(inherit_post.comments.first().author.cid, new_user.cid);
     });
     module("Error handling");
-    test("Empty relation", function() {
+    return test("Empty relation", function() {
       var wrong_post;
       wrong_post = new Post;
       wrong_post.set({
@@ -124,20 +124,6 @@
       equals(wrong_post.title, "wrong");
       ok(wrong_post.comments.constructor === CommentList);
       return equals(wrong_post.comments.length, 0);
-    });
-    module("");
-    return test("", function() {
-      var comments, comments2;
-      comments = new CommentList;
-      comments.refresh([
-        {
-          body: "asd"
-        }, {
-          body: "123"
-        }
-      ]);
-      comments2 = new CommentList(comments.toJSON());
-      return console.warn(comments2);
     });
   });
 }).call(this);
