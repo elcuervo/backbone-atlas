@@ -1,7 +1,7 @@
 (function() {
   $(document).ready(function() {
-    var json, post;
-    post = new Post();
+    var json;
+    window.post = new Post();
     json = {
       title: "Test Title",
       body: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Vivamus vitae risus vitae lorem iaculis placerat.",
@@ -61,12 +61,14 @@
     test("should only update, not overwrite", function() {
       var test_post;
       test_post = new Post({
+        id: 1,
         title: "test1"
       });
       test_post.set({
         title: "test2"
       });
-      return equals(test_post.title, "test2");
+      equals(test_post.title, "test2");
+      return equals(test_post.id, 1);
     });
     module("Testing First level relations");
     test("should match setters", function() {
@@ -114,7 +116,7 @@
       return equals(inherit_post.comments.first().author.cid, new_user.cid);
     });
     module("Error handling");
-    return test("Empty relation", function() {
+    test("Empty relation", function() {
       var wrong_post;
       wrong_post = new Post;
       wrong_post.set({
@@ -124,6 +126,15 @@
       equals(wrong_post.title, "wrong");
       ok(wrong_post.comments.constructor === CommentList);
       return equals(wrong_post.comments.length, 0);
+    });
+    module("Nested toJSON");
+    return test("Complex object to stringified JSON", function() {
+      var json_post;
+      json_post = post.toJSON();
+      console.info(json_post['comments'][0]['comments']);
+      ok(json_post['comments'].constructor === Array);
+      ok(json_post['created_by'].constructor === Object);
+      return ok(json_post['comments'][0]['comments'][0]['commentable'] === null);
     });
   });
 }).call(this);

@@ -23,6 +23,12 @@ class Backbone.Atlas
     relations:
       has: {}
 
+    toJSON: ->
+      json = {}
+      for k, v of _.clone this.attributes
+        json[k] = if v? and v.toJSON? then v.toJSON() else v
+      json
+
     propagate_attributes: -> _.extend this, this.attributes
 
     generate_relation: (attributes, related_models) ->

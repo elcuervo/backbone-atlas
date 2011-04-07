@@ -1,5 +1,5 @@
 $(document).ready ->
-  post = new Post()
+  window.post = new Post()
   json = {
     title: "Test Title"
     body: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Vivamus vitae risus vitae lorem iaculis placerat."
@@ -58,12 +58,14 @@ $(document).ready ->
   module "Updating attributes"
   test "should only update, not overwrite", ->
     test_post = new Post {
+      id:     1
       title: "test1"
     }
     test_post.set {
       title: "test2"
     }
     equals test_post.title, "test2"
+    equals test_post.id, 1
 
 
   module "Testing First level relations"
@@ -117,3 +119,11 @@ $(document).ready ->
     equals  wrong_post.title , "wrong"
     ok      wrong_post.comments.constructor is CommentList
     equals  wrong_post.comments.length, 0
+
+  module "Nested toJSON"
+  test "Complex object to stringified JSON", ->
+    json_post = post.toJSON()
+    ok json_post['comments'].constructor    is Array
+    ok json_post['created_by'].constructor  is Object
+    ok json_post['comments'][0]['comments'][0]['commentable'] is null
+
