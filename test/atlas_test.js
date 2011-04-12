@@ -128,13 +128,20 @@
       return equals(wrong_post.comments.length, 0);
     });
     module("Nested toJSON");
+    test("Shallow toJSON tree", function() {
+      var json_post;
+      json_post = post.toJSON({
+        include: 'comments'
+      });
+      console.log(json_post);
+      ok(json_post['comments'].constructor === Array);
+      return equals(json_post['comments'][0]['id'], 4);
+    });
     return test("Complex object to stringified JSON", function() {
       var json_post;
       json_post = post.toJSON();
-      console.info(json_post['comments'][0]['comments']);
       ok(json_post['comments'].constructor === Array);
-      ok(json_post['created_by'].constructor === Object);
-      return ok(json_post['comments'][0]['comments'][0]['commentable'] === null);
+      return ok(json_post['created_by'].constructor === Object);
     });
   });
 }).call(this);

@@ -121,9 +121,14 @@ $(document).ready ->
     equals  wrong_post.comments.length, 0
 
   module "Nested toJSON"
+  test "Shallow toJSON tree", ->
+    json_post = post.toJSON(include: 'comments')
+    console.log json_post
+    ok      json_post['comments'].constructor   is Array
+    equals  json_post['comments'][0]['id'],     4
+
   test "Complex object to stringified JSON", ->
     json_post = post.toJSON()
     ok json_post['comments'].constructor    is Array
     ok json_post['created_by'].constructor  is Object
-    ok json_post['comments'][0]['comments'][0]['commentable'] is null
 

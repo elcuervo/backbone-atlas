@@ -26,7 +26,7 @@ class Backbone.Atlas
     toJSON: ->
       json = {}
       for k, v of _.clone this.attributes
-        json[k] = if v? and v.toJSON? then v.toJSON() else v
+        json[k] = if v?.toJSON? then v.toJSON() else v if v?
       json
 
     propagate_attributes: -> _.extend this, this.attributes
